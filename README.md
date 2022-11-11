@@ -2,7 +2,7 @@
 Discord bot for Steam API endpoints
 
 ## Searching games
-https://steamcommunity.com/actions/SearchApps/<game-name>
+https://steamcommunity.com/actions/SearchApps/(game-name)
 
 ### Response:
 ```json
@@ -10,7 +10,7 @@ https://steamcommunity.com/actions/SearchApps/<game-name>
 ```
 
 ## Current player count for game
-https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key=<api-key>&appid=<game-id>
+https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key=(api-key)&appid=(game-id)
 
 ### Response:
 ```json
