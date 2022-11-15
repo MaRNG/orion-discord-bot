@@ -1,0 +1,6 @@
+{
+    "require": {
+        "team-reflex/discord-php": "^7.3",
+        "nette/robot-loader": "^3.4"
+    }
+}

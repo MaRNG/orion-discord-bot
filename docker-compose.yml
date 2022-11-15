@@ -1,0 +1,6 @@
+version: '2'
+
+services:
+  orion:
+    container_name: orion
+    build: .
