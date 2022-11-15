@@ -2,7 +2,7 @@
 
 namespace App\Steam\Request\Dto;
 
-class CountPlayerDto
+class PlayerCountDto
 {
 
 }
