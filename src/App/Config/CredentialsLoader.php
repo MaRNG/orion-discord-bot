@@ -29,6 +29,8 @@ class CredentialsLoader
             throw new \InvalidArgumentException('Token is not set in credential config file.');
         }
 
+        var_dump(getenv('botToken'));
+        var_dump(getenv());
         if (getenv('botToken') && getenv('steamApiKey'))
         {
             return self::$credentials = new Credentials(getenv('botToken'), getenv('steamApiKey'));

@@ -5,3 +5,5 @@ services:
     container_name: orion
     build: .
     restart: always
+    env_file:
+      - .env
