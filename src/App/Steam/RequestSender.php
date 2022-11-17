@@ -2,20 +2,37 @@
 
 namespace App\Steam;
 
+use App\Config\CredentialsLoader;
 use App\Exception\SteamRequestException;
 use App\Steam\Request\Dto\GameDetailDto;
 use App\Steam\Request\Dto\GameSearchCollectionDto;
-use App\Steam\Request\Dto\PlayerCountDto;
+use App\Steam\Request\Dto\GamePlayerCountDto;
 use App\Steam\Request\Mapper\GameDetailResultMapper;
+use App\Steam\Request\Mapper\GamePlayerCountResultMapper;
 use App\Steam\Request\Mapper\GameSearchResultMapper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class RequestSender
 {
-    public function getPlayerCount(string $steamGameId): PlayerCountDto
+    public function getPlayerCount(string $steamGameId): GamePlayerCountDto
     {
+        $steamApiKey = CredentialsLoader::load()->getSteamApiKey();
+        $response = $this->sendRequest("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key={$steamApiKey}&appid={$steamGameId}");
 
+        if ($response->getStatusCode() === 200)
+        {
+            if ($response->getData()['response']['result'] && ((int)$response->getData()['response']['result']) === 1)
+            {
+                return GamePlayerCountResultMapper::mapToGamePlayerCount($response->getData());
+            }
+            else
+            {
+                throw new SteamRequestException("Game with id #{$steamGameId} is not found!");
+            }
+        }
+
+        throw new SteamRequestException('Steam player count request raised exception!');
     }
 
     public function getGameSearch(string $searchQuery): GameSearchCollectionDto
