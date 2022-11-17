@@ -1,2 +1,3 @@
 src/Config/creds.json
 vendor
+.env

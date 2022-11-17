@@ -4,3 +4,4 @@ services:
   orion:
     container_name: orion
     build: .
+    restart: always
