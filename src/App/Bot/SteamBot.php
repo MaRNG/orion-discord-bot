@@ -20,6 +20,8 @@ class SteamBot
         $this->discord->on('ready', static function(Discord $discord) {
             echo 'Starting bot...' . PHP_EOL;
 
+            $discord->application->commands->clear();
+
             GameSearchBotCommandRegister::register($discord);
             GameSearchBotCommand::attachCommandListener($discord);
 
