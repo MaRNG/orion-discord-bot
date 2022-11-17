@@ -23,6 +23,15 @@ You can use environment variable as config. This comes handy, while you are usin
  * **botToken** - for Discord bot token generated from admin section of Discord
  * **steamApiKey** - for Steam API generated in Steam
 
+#### Docker environments variables
+You have to create `.env` file.
+
+##### .env content
+```env
+botToken=xxxx
+steamApiKey=xxxx
+```
+
 ## Steam commands examples
 ### Searching games
 https://steamcommunity.com/actions/SearchApps/(game-name)
