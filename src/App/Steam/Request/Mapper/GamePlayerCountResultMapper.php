@@ -7,6 +7,11 @@ use App\Steam\Request\Dto\GamePlayerCountDto;
 
 class GamePlayerCountResultMapper
 {
+    /**
+     * @param array<mixed> $steamResults
+     * @return GamePlayerCountDto
+     * @throws SteamRequestException
+     */
     public static function mapToGamePlayerCount(array $steamResults): GamePlayerCountDto
     {
         if (isset($steamResults['response']['player_count']))

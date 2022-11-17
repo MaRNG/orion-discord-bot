@@ -6,18 +6,23 @@ class ConfigLoader
 {
     /**
      * @param string $pathToConfigFile
-     * @return array
+     * @return array<mixed>
      * @throws \JsonException
      */
     public static function load(string $pathToConfigFile): array
     {
         if (file_exists($pathToConfigFile))
         {
-            $parsedJson = json_decode(file_get_contents($pathToConfigFile), true, 512, JSON_THROW_ON_ERROR);
+            $configFileContent = file_get_contents($pathToConfigFile);
 
-            if ($parsedJson)
+            if ($configFileContent)
             {
-                return $parsedJson;
+                $parsedJson = json_decode($configFileContent, true, 512, JSON_THROW_ON_ERROR);
+
+                if ($parsedJson)
+                {
+                    return $parsedJson;
+                }
             }
 
             throw new \InvalidArgumentException("Passed JSON file is not valid.");

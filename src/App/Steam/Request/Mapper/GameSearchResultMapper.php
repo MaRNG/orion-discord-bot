@@ -7,6 +7,11 @@ use App\Steam\Request\Dto\GameSearchDto;
 
 class GameSearchResultMapper
 {
+    /**
+     * @param array<array<string, string>> $steamResults
+     * @param string $searchQuery
+     * @return GameSearchCollectionDto
+     */
     public static function mapToGameSearchCollection(array $steamResults, string $searchQuery): GameSearchCollectionDto
     {
         $gameSearchItems = [];

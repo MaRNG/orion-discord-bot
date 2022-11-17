@@ -9,6 +9,12 @@ use Discord\Parts\Embed\Embed;
 
 class GamePlayerCountEmbedGenerator
 {
+    /**
+     * @param GameDetailDto $gameDetailDto
+     * @param GamePlayerCountDto $gamePlayerCountDto
+     * @param GameSearchDto $gameSearchDto
+     * @return array<string, string|array<mixed>>
+     */
     public static function generate(GameDetailDto $gameDetailDto, GamePlayerCountDto $gamePlayerCountDto, GameSearchDto $gameSearchDto): array
     {
         $embed = [

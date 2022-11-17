@@ -7,6 +7,11 @@ use App\Steam\Request\Dto\GameDetailDto;
 
 class GameDetailResultMapper
 {
+    /**
+     * @param array<mixed> $result
+     * @return GameDetailDto
+     * @throws SteamRequestException
+     */
     public static function mapToGameDetailDto(array $result): GameDetailDto
     {
         if (isset($result['data']))

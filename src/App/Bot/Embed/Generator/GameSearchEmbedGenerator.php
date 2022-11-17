@@ -16,6 +16,10 @@ class GameSearchEmbedGenerator
         5 => ':five:',
     ];
 
+    /**
+     * @param GameSearchCollectionDto $gameSearchCollectionDto
+     * @return array<string, string>
+     */
     public static function generate(GameSearchCollectionDto $gameSearchCollectionDto): array
     {
         return [
@@ -28,7 +32,7 @@ class GameSearchEmbedGenerator
 
     /**
      * @param array<GameSearchDto> $gameSearchDtoItems
-     * @return array
+     * @return array<string>
      */
     private static function generateDescriptionRows(array $gameSearchDtoItems): array
     {

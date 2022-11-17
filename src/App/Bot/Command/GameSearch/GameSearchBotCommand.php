@@ -47,13 +47,13 @@ class GameSearchBotCommand
 
                         $index = 1;
                         foreach ($limitedGameSearches as $limitedGameSearch) {
-                            $button = Button::new(Button::STYLE_PRIMARY)->setLabel($index);
+                            $button = Button::new(Button::STYLE_PRIMARY)->setLabel((string)$index);
 
                             $button->setListener(function(Interaction $interaction) use ($limitedGameSearch) {
                                 $messageBuilder = self::createPlayerCountMessage($limitedGameSearch);
 
-                                $interaction->message->delete();
-                                $interaction->channel->sendMessage($messageBuilder);
+                                $interaction->message?->delete();
+                                $interaction->channel?->sendMessage($messageBuilder);
                             }, $discord);
 
                             $gamesActionRow->addComponent($button);
@@ -61,8 +61,8 @@ class GameSearchBotCommand
                         }
 
                         $otherActionRow->addComponent(Button::new(Button::STYLE_DANGER)->setLabel('X')->setListener(function(Interaction $interaction) {
-                            $interaction->message->delete();
-                            $interaction->channel->sendMessage(MessageBuilder::new()->setContent('All Right Then, Keep Your Secrets :yawning_face:'));
+                            $interaction->message?->delete();
+                            $interaction->channel?->sendMessage(MessageBuilder::new()->setContent('All Right Then, Keep Your Secrets :yawning_face:'));
                         }, $discord));
 
                         $messageBuilder->addComponent($gamesActionRow)->addComponent($otherActionRow);

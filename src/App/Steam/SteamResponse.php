@@ -4,9 +4,13 @@ namespace App\Steam;
 
 class SteamResponse
 {
+    /**
+     * @param int $statusCode
+     * @param array<mixed> $data
+     */
     public function __construct(
-        private int $statusCode,
-        private array $data
+        private readonly int   $statusCode,
+        private readonly array $data
     )
     {
     }
@@ -14,15 +18,15 @@ class SteamResponse
     /**
      * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->statusCode;
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }

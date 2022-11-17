@@ -70,10 +70,10 @@ class RequestSender
     /**
      * @param string $url
      * @param string $method
-     * @return array
+     * @return SteamResponse
      * @throws GuzzleException
-     * @throws \JsonException
      * @throws SteamRequestException
+     * @throws \JsonException
      */
     private static function sendRequest(string $url, string $method = 'GET'): SteamResponse
     {
