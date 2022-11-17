@@ -15,10 +15,10 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class RequestSender
 {
-    public function getPlayerCount(string $steamGameId): GamePlayerCountDto
+    public static function getPlayerCount(string $steamGameId): GamePlayerCountDto
     {
         $steamApiKey = CredentialsLoader::load()->getSteamApiKey();
-        $response = $this->sendRequest("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key={$steamApiKey}&appid={$steamGameId}");
+        $response = self::sendRequest("https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key={$steamApiKey}&appid={$steamGameId}");
 
         if ($response->getStatusCode() === 200)
         {
@@ -35,22 +35,22 @@ class RequestSender
         throw new SteamRequestException('Steam player count request raised exception!');
     }
 
-    public function getGameSearch(string $searchQuery): GameSearchCollectionDto
+    public static function getGameSearch(string $searchQuery): GameSearchCollectionDto
     {
         $urlEncodedSearchQuery = urlencode($searchQuery);
-        $response = $this->sendRequest("https://steamcommunity.com/actions/SearchApps/{$urlEncodedSearchQuery}");
+        $response = self::sendRequest("https://steamcommunity.com/actions/SearchApps/{$urlEncodedSearchQuery}");
 
         if ($response->getStatusCode() === 200)
         {
-            return GameSearchResultMapper::mapToGameSearchCollection($response->getData());
+            return GameSearchResultMapper::mapToGameSearchCollection($response->getData(), $searchQuery);
         }
 
         throw new SteamRequestException('Steam search raised exception!');
     }
 
-    public function getGameDetail(string $steamGameId): GameDetailDto
+    public static function getGameDetail(string $steamGameId): GameDetailDto
     {
-        $response = $this->sendRequest("https://store.steampowered.com/api/appdetails?appids={$steamGameId}&l=english");
+        $response = self::sendRequest("https://store.steampowered.com/api/appdetails?appids={$steamGameId}&l=english");
 
         if ($response->getStatusCode() === 200 && isset($response->getData()[$steamGameId]))
         {
@@ -75,7 +75,7 @@ class RequestSender
      * @throws \JsonException
      * @throws SteamRequestException
      */
-    private function sendRequest(string $url, string $method = 'GET'): SteamResponse
+    private static function sendRequest(string $url, string $method = 'GET'): SteamResponse
     {
         $client = new Client();
 

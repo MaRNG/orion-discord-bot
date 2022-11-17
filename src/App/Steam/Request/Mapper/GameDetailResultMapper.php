@@ -11,7 +11,7 @@ class GameDetailResultMapper
     {
         if (isset($result['data']))
         {
-            return new GameDetailDto($result['data']['website'], $result['data']['publishers'], self::mapReleaseDateTime($result['data']['release_date']['date'] ?? null));
+            return new GameDetailDto($result['data']['name'], $result['data']['website'], $result['data']['publishers'], self::mapReleaseDateTime($result['data']['release_date']['date'] ?? null));
         }
 
         throw new SteamRequestException('Game couldn\'t be found on Steam!');

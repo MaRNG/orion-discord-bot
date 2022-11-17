@@ -3,5 +3,8 @@
         "team-reflex/discord-php": "^7.3",
         "nette/robot-loader": "^3.4",
         "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.9"
     }
 }

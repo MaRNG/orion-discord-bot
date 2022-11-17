@@ -4,20 +4,22 @@ namespace App\Steam\Request\Dto;
 
 class GameSearchCollectionDto
 {
-    /**
-     * @param array<GameSearchDto> $gameSearchList
-     */
-    public function __construct(
-        private array $gameSearchList
-    )
-    {
-    }
+    private int $count;
 
     /**
-     * @return array<GameSearchDto>
+     * @param array<GameSearchDto> $gameSearchList
+     * @param string $searchQuery
      */
-    public function getGameSearchList(): array
+    public function __construct(
+        public readonly array $gameSearchList,
+        public readonly string $searchQuery
+    )
     {
-        return $this->gameSearchList;
+        $this->count = count($this->gameSearchList);
+    }
+
+    public function count(): int
+    {
+        return $this->count;
     }
 }
