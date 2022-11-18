@@ -10,7 +10,7 @@ class MessageErrorFactory
     {
         $builder = MessageBuilder::new();
 
-        $builder->setContent("[ERROR] :x: {$message} :x:");
+        $builder->setContent(":x: {$message} :x:");
 
         return $builder;
     }

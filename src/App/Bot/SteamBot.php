@@ -4,8 +4,11 @@ namespace App\Bot;
 
 use App\Bot\Command\GameSearch\GameSearchBotCommand;
 use App\Bot\Command\GameSearch\GameSearchBotCommandRegister;
+use App\Bot\Command\Info\AboutBotCommand;
+use App\Bot\Command\Info\AboutBotCommandRegister;
 use App\Config\CredentialsLoader;
 use Discord\Discord;
+use Discord\Parts\User\Activity;
 
 class SteamBot
 {
@@ -22,8 +25,18 @@ class SteamBot
 
             $discord->application->commands->clear();
 
+            $activity = new Activity($discord, [
+                'type' => Activity::TYPE_LISTENING,
+                'name' => '/player-count'
+            ]);
+
+            $discord->updatePresence($activity);
+
             GameSearchBotCommandRegister::register($discord);
             GameSearchBotCommand::attachCommandListener($discord);
+
+            AboutBotCommandRegister::register($discord);
+            AboutBotCommand::attachCommandListener($discord);
 
             echo 'Bot is ready!' . PHP_EOL;
         });
