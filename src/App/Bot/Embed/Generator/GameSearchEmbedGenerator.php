@@ -26,7 +26,7 @@ class GameSearchEmbedGenerator
             'type' => Embed::TYPE_RICH,
             'title' => "Searching for \"{$gameSearchCollectionDto->searchQuery}\"",
             'description' => 'Found multiple games, please select one!' . PHP_EOL . implode(PHP_EOL, self::generateDescriptionRows($gameSearchCollectionDto->gameSearchList)),
-            'colors' => '0x70e814'
+            'colors' => '0x391368'
         ];
     }
 

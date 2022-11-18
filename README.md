@@ -1,6 +1,9 @@
 # discord-bot-steam
 Discord bot for Steam API endpoints
 
+To run bot, you need first setup config, then you can
+start bot via shell script `start-detached.sh`.
+
 ## Setup local config
 ### File config
 You have to create `creds.json` file in `src/App/Config/`. 

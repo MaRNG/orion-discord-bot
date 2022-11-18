@@ -21,7 +21,7 @@ class GamePlayerCountEmbedGenerator
             'type' => Embed::TYPE_RICH,
             'title' => $gameDetailDto->gameName,
             'description' => '',
-            'colors' => '0x70e814',
+            'colors' => '0x391368',
             'fields' => [
                 [
                     'name' => 'Playing',
