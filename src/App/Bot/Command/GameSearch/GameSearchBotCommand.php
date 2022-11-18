@@ -13,8 +13,8 @@ use Discord\Builders\Components\ActionRow;
 use Discord\Builders\Components\Button;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
-use Discord\Parts\Channel\Message;
 use Discord\Parts\Interactions\Interaction;
+use Tracy\Debugger;
 
 class GameSearchBotCommand
 {
@@ -90,8 +90,10 @@ class GameSearchBotCommand
 
             $messageBuilder->addEmbed(GamePlayerCountEmbedGenerator::generate($gameDetailDto, $playerCountDto, $gameSearchDto));
         } catch (DiscordBotSteamException $ex) {
+            Debugger::log($ex);
             $messageBuilder = MessageErrorFactory::create($ex->getMessage());
         } catch (\Exception $ex) {
+            Debugger::log($ex);
             $messageBuilder = MessageErrorFactory::create('Wild error has appeared!');
         }
 
