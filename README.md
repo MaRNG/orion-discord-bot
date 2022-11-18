@@ -1,5 +1,7 @@
 # discord-bot-steam
-Discord bot for Steam API endpoints
+Discord bot, that search for game and show how many players are playing the game currently.
+
+Bot has only one command `/player-count <game-name>`.
 
 To run bot, you need first setup config, then you can
 start bot via shell script `start-detached.sh`.
