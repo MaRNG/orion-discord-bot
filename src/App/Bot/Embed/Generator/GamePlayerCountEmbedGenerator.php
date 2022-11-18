@@ -4,7 +4,9 @@ namespace App\Bot\Embed\Generator;
 
 use App\Steam\Request\Dto\GameDetailDto;
 use App\Steam\Request\Dto\GamePlayerCountDto;
+use App\Steam\Request\Dto\GameReviewsDto;
 use App\Steam\Request\Dto\GameSearchDto;
+use App\Util\GameReviewsCalculator;
 use Discord\Parts\Embed\Embed;
 
 class GamePlayerCountEmbedGenerator
@@ -15,8 +17,10 @@ class GamePlayerCountEmbedGenerator
      * @param GameSearchDto $gameSearchDto
      * @return array<string, string|array<mixed>>
      */
-    public static function generate(GameDetailDto $gameDetailDto, GamePlayerCountDto $gamePlayerCountDto, GameSearchDto $gameSearchDto): array
+    public static function generate(GameDetailDto $gameDetailDto, GamePlayerCountDto $gamePlayerCountDto, GameSearchDto $gameSearchDto, GameReviewsDto $gameReviewsDto): array
     {
+        $positiveReviewsPercentage = GameReviewsCalculator::calculatePositivePercent($gameReviewsDto->totalReviews, $gameReviewsDto->positiveReviews);
+
         $embed = [
             'type' => Embed::TYPE_RICH,
             'title' => $gameDetailDto->gameName,
@@ -24,12 +28,17 @@ class GamePlayerCountEmbedGenerator
             'colors' => '0x391368',
             'fields' => [
                 [
-                    'name' => 'Playing',
+                    'name' => 'Playing :video_game:',
                     'value' => "{$gamePlayerCountDto->playerCount} players",
                     'inline' => true,
                 ],
                 [
-                    'name' => 'Release date',
+                    'name' => 'Reviews ' . GameReviewsCalculator::getEmojiByPositivePercent($positiveReviewsPercentage),
+                    'value' => "{$positiveReviewsPercentage}%",
+                    'inline' => true,
+                ],
+                [
+                    'name' => 'Release date :calendar:',
                     'value' => $gameDetailDto->releaseDate?->format('d. m. Y'),
                     'inline' => true,
                 ]

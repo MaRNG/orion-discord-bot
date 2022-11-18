@@ -5,10 +5,12 @@ namespace App\Steam;
 use App\Config\CredentialsLoader;
 use App\Exception\SteamRequestException;
 use App\Steam\Request\Dto\GameDetailDto;
+use App\Steam\Request\Dto\GameReviewsDto;
 use App\Steam\Request\Dto\GameSearchCollectionDto;
 use App\Steam\Request\Dto\GamePlayerCountDto;
 use App\Steam\Request\Mapper\GameDetailResultMapper;
 use App\Steam\Request\Mapper\GamePlayerCountResultMapper;
+use App\Steam\Request\Mapper\GameReviewsResultMapper;
 use App\Steam\Request\Mapper\GameSearchResultMapper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -65,6 +67,25 @@ class RequestSender
         }
 
         throw new SteamRequestException('Steam appdetails raised exception!');
+    }
+
+    public static function getGameReviews(string $steamGameId): GameReviewsDto
+    {
+        $response = self::sendRequest("https://store.steampowered.com/appreviews/{$steamGameId}?json=1&purchase_type=all&language=all&num_per_page=0");
+
+        if ($response->getStatusCode() === 200)
+        {
+            if ($response->getData()['success'])
+            {
+                return GameReviewsResultMapper::mapToGameReviews($response->getData());
+            }
+            else
+            {
+                throw new SteamRequestException("Game with id #{$steamGameId} is not found!");
+            }
+        }
+
+        throw new SteamRequestException('Steam game reviews raised exception!');
     }
 
     /**

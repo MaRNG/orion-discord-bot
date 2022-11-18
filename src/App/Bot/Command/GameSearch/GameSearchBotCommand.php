@@ -89,8 +89,9 @@ class GameSearchBotCommand
 
             $playerCountDto = RequestSender::getPlayerCount($steamId);
             $gameDetailDto = RequestSender::getGameDetail($steamId);
+            $gameReviewsDto = RequestSender::getGameReviews($steamId);
 
-            $messageBuilder->addEmbed(GamePlayerCountEmbedGenerator::generate($gameDetailDto, $playerCountDto, $gameSearchDto));
+            $messageBuilder->addEmbed(GamePlayerCountEmbedGenerator::generate($gameDetailDto, $playerCountDto, $gameSearchDto, $gameReviewsDto));
         } catch (DiscordBotSteamException $ex) {
             Debugger::log($ex);
             $messageBuilder = MessageErrorFactory::create($ex->getMessage());
