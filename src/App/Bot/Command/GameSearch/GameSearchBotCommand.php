@@ -14,6 +14,8 @@ use Discord\Builders\Components\Button;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Parts\Interactions\Interaction;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\ClientException;
 use Tracy\Debugger;
 
 class GameSearchBotCommand
@@ -92,6 +94,9 @@ class GameSearchBotCommand
         } catch (DiscordBotSteamException $ex) {
             Debugger::log($ex);
             $messageBuilder = MessageErrorFactory::create($ex->getMessage());
+        } catch (BadResponseException $ex) {
+            Debugger::log($ex);
+            $messageBuilder = MessageErrorFactory::create("Game {$gameSearchDto->getName()} hasn\'t info about current player count. :sob:");
         } catch (\Exception $ex) {
             Debugger::log($ex);
             $messageBuilder = MessageErrorFactory::create('Wild error has appeared!');
