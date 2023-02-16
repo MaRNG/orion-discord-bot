@@ -21,6 +21,8 @@ class GamePlayerCountEmbedGenerator
     {
         $positiveReviewsPercentage = GameReviewsCalculator::calculatePositivePercent($gameReviewsDto->totalReviews, $gameReviewsDto->positiveReviews);
 
+        $reviewsEmoji = GameReviewsCalculator::getEmojiByPositivePercent($positiveReviewsPercentage);
+
         $embed = [
             'type' => Embed::TYPE_RICH,
             'title' => $gameDetailDto->gameName,
@@ -33,8 +35,8 @@ class GamePlayerCountEmbedGenerator
                     'inline' => true,
                 ],
                 [
-                    'name' => 'Reviews ' . GameReviewsCalculator::getEmojiByPositivePercent($positiveReviewsPercentage),
-                    'value' => "{$positiveReviewsPercentage}%",
+                    'name' => "Reviews {$reviewsEmoji}",
+                    'value' => "[{$positiveReviewsPercentage}%](https://steamcommunity.com/app/{$gameSearchDto->getSteamId()}/reviews/)",
                     'inline' => true,
                 ],
                 [
@@ -50,7 +52,7 @@ class GamePlayerCountEmbedGenerator
 
         if ($gameDetailDto->gameUrl)
         {
-            $embed['url'] = $gameDetailDto->gameUrl;
+            $embed['url'] = "https://store.steampowered.com/app/{$gameSearchDto->getSteamId()}";
         }
 
         return $embed;
