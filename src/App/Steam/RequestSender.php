@@ -8,10 +8,12 @@ use App\Steam\Request\Dto\GameDetailDto;
 use App\Steam\Request\Dto\GameReviewsDto;
 use App\Steam\Request\Dto\GameSearchCollectionDto;
 use App\Steam\Request\Dto\GamePlayerCountDto;
+use App\Steam\Request\Dto\UsersCountDto;
 use App\Steam\Request\Mapper\GameDetailResultMapper;
 use App\Steam\Request\Mapper\GamePlayerCountResultMapper;
 use App\Steam\Request\Mapper\GameReviewsResultMapper;
 use App\Steam\Request\Mapper\GameSearchResultMapper;
+use App\Steam\Request\Mapper\UsersCountResultMapper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -86,6 +88,27 @@ class RequestSender
         }
 
         throw new SteamRequestException('Steam game reviews raised exception!');
+    }
+
+    public static function getUsersCount(): UsersCountDto
+    {
+        $response = self::sendRequest("https://www.valvesoftware.com/cs/about/stats");
+
+        if ($response->getStatusCode() === 200)
+        {
+            $responseData = $response->getData();
+
+            if (isset($responseData['users_online'], $responseData['users_ingame']))
+            {
+                return UsersCountResultMapper::mapToUsersCountDto($responseData);
+            }
+            else
+            {
+                throw new SteamRequestException('Users count data not found!');
+            }
+        }
+
+        throw new SteamRequestException('Users count request raised wild exception!');
     }
 
     /**
