@@ -7,6 +7,7 @@ use App\Steam\Request\Dto\GamePlayerCountDto;
 use App\Steam\Request\Dto\GameReviewsDto;
 use App\Steam\Request\Dto\GameSearchDto;
 use App\Util\GameReviewsCalculator;
+use App\Util\NumberFormatter;
 use Discord\Parts\Embed\Embed;
 
 class GamePlayerCountEmbedGenerator
@@ -22,6 +23,7 @@ class GamePlayerCountEmbedGenerator
         $positiveReviewsPercentage = GameReviewsCalculator::calculatePositivePercent($gameReviewsDto->totalReviews, $gameReviewsDto->positiveReviews);
 
         $reviewsEmoji = GameReviewsCalculator::getEmojiByPositivePercent($positiveReviewsPercentage);
+        $playerCount = NumberFormatter::format($gamePlayerCountDto->playerCount);
 
         $embed = [
             'type' => Embed::TYPE_RICH,
@@ -31,7 +33,7 @@ class GamePlayerCountEmbedGenerator
             'fields' => [
                 [
                     'name' => 'Playing :video_game:',
-                    'value' => "{$gamePlayerCountDto->playerCount} players",
+                    'value' => "{$playerCount} players",
                     'inline' => true,
                 ],
                 [

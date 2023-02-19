@@ -6,6 +6,12 @@ use App\Bot\Command\GameSearch\GameSearchBotCommand;
 use App\Bot\Command\GameSearch\GameSearchBotCommandRegister;
 use App\Bot\Command\Info\AboutBotCommand;
 use App\Bot\Command\Info\AboutBotCommandRegister;
+use App\Bot\Command\SteamAllTimeTopPlayerCount\SteamAllTimeTopPlayerCountCommand;
+use App\Bot\Command\SteamAllTimeTopPlayerCount\SteamAllTimeTopPlayerCountCommandRegister;
+use App\Bot\Command\SteamCurrentTopPlayerCount\SteamCurrentTopPlayerCountCommand;
+use App\Bot\Command\SteamCurrentTopPlayerCount\SteamCurrentTopPlayerCountCommandRegister;
+use App\Bot\Command\SteamPlayerCount\SteamPlayerCountBotCommand;
+use App\Bot\Command\SteamPlayerCount\SteamPlayerCountBotCommandRegister;
 use App\Config\CredentialsLoader;
 use Discord\Discord;
 use Discord\Parts\User\Activity;
@@ -37,6 +43,15 @@ class SteamBot
 
             AboutBotCommandRegister::register($discord);
             AboutBotCommand::attachCommandListener($discord);
+
+            SteamPlayerCountBotCommandRegister::register($discord);
+            SteamPlayerCountBotCommand::attachCommandListener($discord);
+
+            SteamAllTimeTopPlayerCountCommandRegister::register($discord);
+            SteamAllTimeTopPlayerCountCommand::attachCommandListener($discord);
+
+            SteamCurrentTopPlayerCountCommandRegister::register($discord);
+            SteamCurrentTopPlayerCountCommand::attachCommandListener($discord);
 
             echo 'Bot is ready!' . PHP_EOL;
         });
