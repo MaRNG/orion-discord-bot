@@ -31,7 +31,7 @@ class SteamAllTimePlayerCountEmbedGenerator
         return [
             'type' => Embed::TYPE_RICH,
             'title' => "Most played games all time on Steam",
-            'description' => implode(PHP_EOL, self::generateDescriptionRows($allTimeTopPlayedGamesDto->games)),
+            'description' => "**Fetched data from SteamCharts can be inaccurate!**\n\n" . implode(PHP_EOL, self::generateDescriptionRows($allTimeTopPlayedGamesDto->games)),
             'colors' => '0x391368'
         ];
     }
