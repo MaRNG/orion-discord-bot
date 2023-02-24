@@ -5,8 +5,8 @@ namespace App\Bot\Command\SteamCurrentTopPlayerCount;
 use App\Bot\Embed\Generator\SteamCurrentPlayerCountEmbedGenerator;
 use App\Bot\Message\MessageErrorFactory;
 use App\Exception\SteamChartRequestException;
-use App\SteamChart\Request\Dto\CurrentTopPlayedGamesDto;
-use App\SteamChart\RequestSender;
+use App\Steam\Request\Dto\CurrentTopPlayedGamesResponseDto;
+use App\Steam\RequestSender;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Parts\Interactions\Interaction;
@@ -31,12 +31,12 @@ class SteamCurrentTopPlayerCountCommand
         });
     }
 
-    private static function createMessage(CurrentTopPlayedGamesDto $usersCountDto): MessageBuilder
+    private static function createMessage(CurrentTopPlayedGamesResponseDto $currentTopPlayedGamesResponseDto): MessageBuilder
     {
         $messageBuilder = MessageBuilder::new();
 
         try {
-            $messageBuilder->addEmbed(SteamCurrentPlayerCountEmbedGenerator::generate($usersCountDto));
+            $messageBuilder->addEmbed(SteamCurrentPlayerCountEmbedGenerator::generate($currentTopPlayedGamesResponseDto));
         } catch (\Exception $ex) {
             Debugger::log($ex);
             $messageBuilder = MessageErrorFactory::create('Wild error has appeared!');

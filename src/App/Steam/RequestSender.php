@@ -4,11 +4,13 @@ namespace App\Steam;
 
 use App\Config\CredentialsLoader;
 use App\Exception\SteamRequestException;
+use App\Steam\Request\Dto\CurrentTopPlayedGamesResponseDto;
 use App\Steam\Request\Dto\GameDetailDto;
 use App\Steam\Request\Dto\GameReviewsDto;
 use App\Steam\Request\Dto\GameSearchCollectionDto;
 use App\Steam\Request\Dto\GamePlayerCountDto;
 use App\Steam\Request\Dto\UsersCountDto;
+use App\Steam\Request\Mapper\CurrentTopPlayedGamesResultMapper;
 use App\Steam\Request\Mapper\GameDetailResultMapper;
 use App\Steam\Request\Mapper\GamePlayerCountResultMapper;
 use App\Steam\Request\Mapper\GameReviewsResultMapper;
@@ -109,6 +111,27 @@ class RequestSender
         }
 
         throw new SteamRequestException('Users count request raised wild exception!');
+    }
+
+    public static function getCurrentTopPlayedGames(): CurrentTopPlayedGamesResponseDto
+    {
+        $response = self::sendRequest("https://api.steampowered.com/ISteamChartsService/GetGamesByConcurrentPlayers/v1");
+
+        if ($response->getStatusCode() === 200)
+        {
+            $responseData = $response->getData();
+
+            if (isset($responseData['response']['ranks']))
+            {
+                return CurrentTopPlayedGamesResultMapper::map($responseData);
+            }
+            else
+            {
+                throw new SteamRequestException('Response doesn\'t have ranks data!');
+            }
+        }
+
+        throw new SteamRequestException('Current top played games request raised wild exception!');
     }
 
     /**

@@ -33,36 +33,6 @@ class WebScraper
     }
 
     /**
-     * @return array<array{ title: string, relativeUrl: string, playerCount: int }>
-     * @throws SteamChartRequestException
-     */
-    public static function scrapeCurrentTopPlayedGames(): array
-    {
-        $html = self::scrapeHtml();
-
-        $games = [];
-
-        libxml_use_internal_errors(true);
-
-        $doc = new \DOMDocument();
-        $doc->loadHTML($html);
-
-        $xpath = new \DOMXPath($doc);
-
-        /** @var \DOMElement $gameTitleRowElement */
-        foreach ($xpath->evaluate('//*[@id="top-games"]/tbody/tr/td[contains(@class, "game-name")]/a') as $idx => $gameTitleRowElement) {
-            $games[$idx] = [ 'title' => trim($gameTitleRowElement->textContent), 'relativeUrl' => $gameTitleRowElement->getAttribute('href') ];
-        }
-
-        /** @var \DOMElement $gamePlayerCountRowElement */
-        foreach ($xpath->evaluate('//*[@id="top-games"]/tbody/tr/td[3]') as $idx => $gamePlayerCountRowElement) {
-            $games[$idx]['playerCount'] = (int)trim(strtr($gamePlayerCountRowElement->textContent, [',' => '']));
-        }
-
-        return $games;
-    }
-
-    /**
      * @return array
      * @throws SteamChartRequestException
      */

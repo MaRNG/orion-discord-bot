@@ -2,8 +2,8 @@
 
 namespace App\Bot\Embed\Generator;
 
-use App\SteamChart\Request\Dto\CurrentTopPlayedGameDto;
-use App\SteamChart\Request\Dto\CurrentTopPlayedGamesDto;
+use App\Steam\Request\Dto\CurrentTopPlayedGameResponseDto;
+use App\Steam\Request\Dto\CurrentTopPlayedGamesResponseDto;
 use App\Util\NumberFormatter;
 use Discord\Parts\Embed\Embed;
 
@@ -23,10 +23,10 @@ class SteamCurrentPlayerCountEmbedGenerator
     ];
 
     /**
-     * @param CurrentTopPlayedGamesDto $currentTopPlayedGamesDto
+     * @param CurrentTopPlayedGamesResponseDto $currentTopPlayedGamesDto
      * @return array<string, string>
      */
-    public static function generate(CurrentTopPlayedGamesDto $currentTopPlayedGamesDto): array
+    public static function generate(CurrentTopPlayedGamesResponseDto $currentTopPlayedGamesDto): array
     {
         return [
             'type' => Embed::TYPE_RICH,
@@ -37,7 +37,7 @@ class SteamCurrentPlayerCountEmbedGenerator
     }
 
     /**
-     * @param array<CurrentTopPlayedGameDto> $games
+     * @param array<CurrentTopPlayedGameResponseDto> $games
      * @return array<string>
      */
     private static function generateDescriptionRows(array $games): array
@@ -47,8 +47,8 @@ class SteamCurrentPlayerCountEmbedGenerator
         $index = 1;
 
         foreach ($games as $game) {
-            $playerCount = NumberFormatter::format($game->playerCount);
-            $rows[] = (self::NUMBER_ICONS[$index] ?? (string)$index) . " - **{$game->gameTitle}** - `{$playerCount} players`" ;
+            $playerCount = NumberFormatter::format($game->concurrentInGame);
+            $rows[] = (self::NUMBER_ICONS[$index] ?? (string)$index) . " - **{$game->gameDetailDto->gameName}** - `{$playerCount} players`" ;
 
             $index++;
         }
