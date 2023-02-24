@@ -33,7 +33,7 @@ class WebScraper
     }
 
     /**
-     * @return array
+     * @return array<int|string, array{ title: string, relativeUrl: string, playerCount: int, peakMonth: \DateTimeInterface|false }>
      * @throws SteamChartRequestException
      */
     public static function scrapeAllTimeTopPlayedGames(): array

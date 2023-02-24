@@ -11,7 +11,7 @@ class GameReviewsCalculator
             return 0;
         }
 
-        return round(($positiveReviews / $totalReviews) * 100);
+        return (int)round(($positiveReviews / $totalReviews) * 100);
     }
 
     public static function getEmojiByPositivePercent(int $percentage): string
@@ -22,7 +22,7 @@ class GameReviewsCalculator
             $percentage >= 50 => ':slight_smile:',
             $percentage >= 30 => ':yawning_face:',
             $percentage >= 10 => ':clown:',
-            $percentage < 10 => ':poop:',
+            default => ':poop:',
         };
     }
 }
