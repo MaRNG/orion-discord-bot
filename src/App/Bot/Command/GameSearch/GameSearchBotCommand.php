@@ -27,7 +27,14 @@ class GameSearchBotCommand
                 if (isset($interaction->data->options['game']) && $interaction->data->options['game']->value)
                 {
                     $searchGame = $interaction->data->options['game']->value;
-                    $gameSearchCollectionDto = RequestSender::getGameSearch($searchGame);
+
+                    try {
+                        $gameSearchCollectionDto = RequestSender::getGameSearch($searchGame);
+                    } catch (\Throwable $ex) {
+                        Debugger::log($ex);
+                        $interaction->updateOriginalResponse(MessageErrorFactory::create('Steam API raised exception!'));
+                        return;
+                    }
 
                     $messageBuilder = MessageBuilder::new();
 
@@ -98,7 +105,7 @@ class GameSearchBotCommand
         } catch (BadResponseException $ex) {
             Debugger::log($ex);
             $messageBuilder = MessageErrorFactory::create("Game {$gameSearchDto->getName()} hasn\'t info about current player count. :sob:");
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
             Debugger::log($ex);
             $messageBuilder = MessageErrorFactory::create('Wild error has appeared!');
         }
