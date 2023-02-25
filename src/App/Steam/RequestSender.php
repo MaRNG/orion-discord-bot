@@ -21,6 +21,13 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class RequestSender
 {
+    /**
+     * @param string $steamGameId
+     * @return GamePlayerCountDto
+     * @throws GuzzleException
+     * @throws SteamRequestException
+     * @throws \JsonException
+     */
     public static function getPlayerCount(string $steamGameId): GamePlayerCountDto
     {
         $steamApiKey = CredentialsLoader::load()->getSteamApiKey();
@@ -41,6 +48,13 @@ class RequestSender
         throw new SteamRequestException('Steam player count request raised exception!');
     }
 
+    /**
+     * @param string $searchQuery
+     * @return GameSearchCollectionDto
+     * @throws GuzzleException
+     * @throws SteamRequestException
+     * @throws \JsonException
+     */
     public static function getGameSearch(string $searchQuery): GameSearchCollectionDto
     {
         $urlEncodedSearchQuery = urlencode($searchQuery);
@@ -54,6 +68,13 @@ class RequestSender
         throw new SteamRequestException('Steam search raised exception!');
     }
 
+    /**
+     * @param string $steamGameId
+     * @return GameDetailDto
+     * @throws GuzzleException
+     * @throws SteamRequestException
+     * @throws \JsonException
+     */
     public static function getGameDetail(string $steamGameId): GameDetailDto
     {
         $response = self::sendRequest("https://store.steampowered.com/api/appdetails?appids={$steamGameId}&l=english");
@@ -73,6 +94,13 @@ class RequestSender
         throw new SteamRequestException('Steam appdetails raised exception!');
     }
 
+    /**
+     * @param string $steamGameId
+     * @return GameReviewsDto
+     * @throws GuzzleException
+     * @throws SteamRequestException
+     * @throws \JsonException
+     */
     public static function getGameReviews(string $steamGameId): GameReviewsDto
     {
         $response = self::sendRequest("https://store.steampowered.com/appreviews/{$steamGameId}?json=1&purchase_type=all&language=all&num_per_page=0");
@@ -92,6 +120,12 @@ class RequestSender
         throw new SteamRequestException('Steam game reviews raised exception!');
     }
 
+    /**
+     * @return UsersCountDto
+     * @throws GuzzleException
+     * @throws SteamRequestException
+     * @throws \JsonException
+     */
     public static function getUsersCount(): UsersCountDto
     {
         $response = self::sendRequest("https://www.valvesoftware.com/cs/about/stats");
@@ -113,6 +147,12 @@ class RequestSender
         throw new SteamRequestException('Users count request raised wild exception!');
     }
 
+    /**
+     * @return CurrentTopPlayedGamesResponseDto
+     * @throws GuzzleException
+     * @throws SteamRequestException
+     * @throws \JsonException
+     */
     public static function getCurrentTopPlayedGames(): CurrentTopPlayedGamesResponseDto
     {
         $response = self::sendRequest("https://api.steampowered.com/ISteamChartsService/GetGamesByConcurrentPlayers/v1");
