@@ -17,8 +17,14 @@ class SteamPlayerCountBotCommand
     {
         $discord->listenCommand(SteamPlayerCountBotCommandRegister::COMMAND_NAME, function(Interaction $interaction) use ($discord) {
             $interaction->acknowledgeWithResponse()->done(function() use ($discord, $interaction) {
-                $usersCountDto = RequestSender::getUsersCount();
-                $messageBuilder = self::createMessage($usersCountDto);
+
+                try {
+                    $usersCountDto = RequestSender::getUsersCount();
+                    $messageBuilder = self::createMessage($usersCountDto);
+                } catch (\Throwable $ex) {
+                    $messageBuilder = MessageErrorFactory::create('Steam player count data couldn\'t be fetch!');
+                }
+
                 $interaction->updateOriginalResponse($messageBuilder);
             });
         });
