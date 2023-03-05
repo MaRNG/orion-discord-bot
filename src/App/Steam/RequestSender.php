@@ -41,7 +41,7 @@ class RequestSender
             }
             else
             {
-                throw new SteamRequestException("Game with id #{$steamGameId} is not found!");
+                throw new SteamRequestException("Game's player count with id #{$steamGameId} is not found!");
             }
         }
 
@@ -87,7 +87,7 @@ class RequestSender
             }
             else
             {
-                throw new SteamRequestException("Game with id #{$steamGameId} is not found!");
+                throw new SteamRequestException("Game's detail with id #{$steamGameId} is not found!");
             }
         }
 
@@ -113,7 +113,7 @@ class RequestSender
             }
             else
             {
-                throw new SteamRequestException("Game with id #{$steamGameId} is not found!");
+                throw new SteamRequestException("Game's reviews with id #{$steamGameId} is not found!");
             }
         }
 
