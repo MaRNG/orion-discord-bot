@@ -18,6 +18,7 @@ use App\Steam\Request\Mapper\GameSearchResultMapper;
 use App\Steam\Request\Mapper\UsersCountResultMapper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Tracy\Debugger;
 
 class RequestSender
 {
@@ -41,6 +42,7 @@ class RequestSender
             }
             else
             {
+                Debugger::log($response->getData(), 'api-error--player-count');
                 throw new SteamRequestException("Game's player count with id #{$steamGameId} is not found!");
             }
         }
@@ -62,6 +64,7 @@ class RequestSender
 
         if ($response->getStatusCode() === 200)
         {
+            Debugger::log($response->getData(), 'api-error--game-search');
             return GameSearchResultMapper::mapToGameSearchCollection($response->getData(), $searchQuery);
         }
 
@@ -87,6 +90,7 @@ class RequestSender
             }
             else
             {
+                Debugger::log($response->getData(), 'api-error--game-detail');
                 throw new SteamRequestException("Game's detail with id #{$steamGameId} is not found!");
             }
         }
@@ -113,6 +117,7 @@ class RequestSender
             }
             else
             {
+                Debugger::log($response->getData(), 'api-error--game-reviews');
                 throw new SteamRequestException("Game's reviews with id #{$steamGameId} is not found!");
             }
         }
@@ -140,6 +145,7 @@ class RequestSender
             }
             else
             {
+                Debugger::log($response->getData(), 'api-error--user-count');
                 throw new SteamRequestException('Users count data not found!');
             }
         }
@@ -167,6 +173,7 @@ class RequestSender
             }
             else
             {
+                Debugger::log($response->getData(), 'api-error--top-played-games');
                 throw new SteamRequestException('Response doesn\'t have ranks data!');
             }
         }
