@@ -43,7 +43,7 @@ class GamePlayerCountEmbedGenerator
                 ],
                 [
                     'name' => 'Release date :calendar:',
-                    'value' => $gameDetailDto->releaseDate?->format('d. m. Y'),
+                    'value' => $gameDetailDto->releaseDate ? strtr($gameDetailDto->releaseDate?->format('d. m. Y'), [ '.' => '\.' ]) : '',
                     'inline' => true,
                 ]
             ],
