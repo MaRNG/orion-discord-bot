@@ -1,0 +1,10 @@
+{
+  "filepath": "/data/database.sqlite",
+  "throwsExceptions": true,
+  "entities": [
+    {
+      "classname": "App\\Model\\Database\\Entity\\LogStatistic",
+      "table": "log_statistic"
+    }
+  ]
+}

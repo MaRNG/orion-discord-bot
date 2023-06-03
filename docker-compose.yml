@@ -7,3 +7,7 @@ services:
     restart: always
     env_file:
       - .env
+    volumes:
+      - ./data:/srv/orion/data
+      - ./log:/srv/orion/log
+      - ./temp:/srv/orion/temp
