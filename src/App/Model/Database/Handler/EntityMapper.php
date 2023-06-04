@@ -46,23 +46,21 @@ class EntityMapper
                     throw new DatabaseMapperException(sprintf('Getter %s not exists in %s entity', $getterFunctionName, $refl->getName()));
                 }
 
-                switch ($propertyTypeName)
+                $value = $entity->$getterFunctionName();
+
+                if ($value === null)
                 {
-                    case 'string':
-                        $mappedValues[$propertyName] = self::mapString($entity->$getterFunctionName());
-                        break;
-                    case 'int':
-                        $mappedValues[$propertyName] = self::mapInteger($entity->$getterFunctionName());
-                        break;
-                    case 'float':
-                        $mappedValues[$propertyName] = self::mapFloat($entity->$getterFunctionName());
-                        break;
-                    case 'datetime':
-                        $mappedValues[$propertyName] = self::mapDateTime($entity->$getterFunctionName());
-                        break;
-                    default:
-                        throw new DatabaseMapperException(sprintf('Type %s is not implemented in mapper!', $propertyTypeName));
+                    $mappedValues[$propertyName] = null;
+                    continue;
                 }
+
+                $mappedValues[$propertyName] = match ($propertyTypeName) {
+                    'string' => self::mapString($value),
+                    'int' => self::mapInteger($value),
+                    'float' => self::mapFloat($value),
+                    'datetime' => self::mapDateTime($value),
+                    default => throw new DatabaseMapperException(sprintf('Type %s is not implemented in mapper!', $propertyTypeName)),
+                };
             }
         }
 

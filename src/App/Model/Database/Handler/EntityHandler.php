@@ -70,28 +70,42 @@ class EntityHandler
 
     public function insert(IEntity $entity): ?\SQLite3Result
     {
+        printf('Start inserting entity...' . PHP_EOL);
+
+        printf('Mapping database values...' . PHP_EOL);
         $mappedEntityValues = $this->entityMapper->mapToDatabaseValues($entity);
+
+        printf('Loading entity metadata...' . PHP_EOL);
         $entityMetadata = $this->entityMetadataLoader->loadFromObject($entity);
 
+        printf('Preparing SQL columns...' . PHP_EOL);
         $implodedColumnKeysWithQuotes = implode(', ', array_map(static function(string $columnKey) {
             return sprintf('"%s"', $columnKey);
         }, array_keys($mappedEntityValues)));
 
+        printf('Preparing parameter keys' . PHP_EOL);
         $implodedColumnKeysParameters = implode(', ', array_map(static function(string $columnKey) {
             return sprintf(':%s', $columnKey);
         }, array_keys($mappedEntityValues)));
 
+        printf('Preparing SQL...' . PHP_EOL);
         $statementInsertSql = sprintf('INSERT INTO "%s" (%s) VALUES (%s)', $entityMetadata['table'], $implodedColumnKeysWithQuotes, $implodedColumnKeysParameters);
+
+        printf('Preparing SQL statement...' . PHP_EOL);
         $statement = $this->connection->prepare($statementInsertSql);
 
+        printf('Binding values to statement...' . PHP_EOL);
         foreach ($mappedEntityValues as $mappedEntityKey => $mappedEntityValue) {
             $statement->bindValue(":{$mappedEntityKey}", $mappedEntityValue);
         }
 
+        printf('Executing statement' . PHP_EOL);
         $result = $statement->execute();
 
+        printf('Fetching last inserted ID...' . PHP_EOL);
         $entity->setId($this->connection->lastInsertRowID());
 
+        printf('Entity insert finished!' . PHP_EOL);
         return $result;
     }
 
