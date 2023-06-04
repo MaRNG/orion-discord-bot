@@ -5,10 +5,13 @@ namespace App\Bot\Command\GameSearch;
 use App\Bot\Embed\Generator\GamePlayerCountEmbedGenerator;
 use App\Bot\Embed\Generator\GameSearchEmbedGenerator;
 use App\Bot\Message\MessageErrorFactory;
+use App\Bot\Message\PlayerCountMessage;
 use App\Exception\DiscordBotSteamException;
+use App\Model\Statistic\StatisticLogger;
 use App\Steam\Request\Dto\GameSearchCollectionDto;
 use App\Steam\Request\Dto\GameSearchDto;
 use App\Steam\RequestSender;
+use App\Util\GameReviewsCalculator;
 use Discord\Builders\Components\ActionRow;
 use Discord\Builders\Components\Button;
 use Discord\Builders\MessageBuilder;
@@ -24,6 +27,12 @@ class GameSearchBotCommand
     {
         $discord->listenCommand(GameSearchBotCommandRegister::COMMAND_NAME, function(Interaction $interaction) use ($discord) {
             $interaction->acknowledgeWithResponse()->done(function() use ($discord, $interaction) {
+                $responseStatusCodeForStatistics = StatisticLogger::STATUS_ERROR;
+                $foundGameName = null;
+                $foundGamePlayerCount = null;
+                $foundGameReviewsPositive = null;
+                $foundTooManyGames = false;
+
                 if (isset($interaction->data->options['game']) && $interaction->data->options['game']->value)
                 {
                     $searchGame = $interaction->data->options['game']->value;
@@ -40,14 +49,25 @@ class GameSearchBotCommand
 
                     if ($gameSearchCollectionDto->count() === 1)
                     {
-                        $messageBuilder = self::createPlayerCountMessage($gameSearchCollectionDto->gameSearchList[0]);
+                        $playerCountMessage = self::createPlayerCountMessage($gameSearchCollectionDto->gameSearchList[0]);
+                        $messageBuilder = $playerCountMessage->messageBuilder;
+                        $responseStatusCodeForStatistics = StatisticLogger::STATUS_OK;
+
+                        $foundGameName = $playerCountMessage->gameDetailDto?->gameName;
+                        $foundGamePlayerCount = $playerCountMessage->gamePlayerCountDto?->playerCount;
+                        $foundGameReviewsPositive = $playerCountMessage->gameReviewsDto ? GameReviewsCalculator::calculatePositivePercent($playerCountMessage->gameReviewsDto->totalReviews, $playerCountMessage->gameReviewsDto->positiveReviews) : null;
                     }
                     elseif ($gameSearchCollectionDto->count() === 0)
                     {
                         $messageBuilder = MessageErrorFactory::create("Game {$searchGame} is not exists!");
+                        $responseStatusCodeForStatistics = StatisticLogger::STATUS_NOT_FOUND;
                     }
                     else
                     {
+                        $foundTooManyGames = true;
+
+                        $responseStatusCodeForStatistics = StatisticLogger::STATUS_OK;
+
                         $limitedGameSearches = array_slice($gameSearchCollectionDto->gameSearchList, 0, 5);
                         $messageBuilder->addEmbed(GameSearchEmbedGenerator::generate(new GameSearchCollectionDto($limitedGameSearches, $searchGame)));
 
@@ -59,10 +79,24 @@ class GameSearchBotCommand
                             $button = Button::new(Button::STYLE_PRIMARY)->setLabel((string)$index);
 
                             $button->setListener(function(Interaction $interaction) use ($limitedGameSearch) {
-                                $messageBuilder = self::createPlayerCountMessage($limitedGameSearch);
+                                $playerCountMessage = self::createPlayerCountMessage($limitedGameSearch);
+
+                                $foundGameName = $playerCountMessage->gameDetailDto?->gameName;
+                                $foundGamePlayerCount = $playerCountMessage->gamePlayerCountDto?->playerCount;
+                                $foundGameReviewsPositive = $playerCountMessage->gameReviewsDto ? GameReviewsCalculator::calculatePositivePercent($playerCountMessage->gameReviewsDto->totalReviews, $playerCountMessage->gameReviewsDto->positiveReviews) : null;
+
+                                $messageBuilder = $playerCountMessage->messageBuilder;
 
                                 $interaction->message?->delete();
                                 $interaction->channel?->sendMessage($messageBuilder);
+
+                                try {
+                                    StatisticLogger::logInteraction($interaction, GameSearchBotCommandRegister::COMMAND_NAME, $foundGameName, $foundGamePlayerCount, $foundGameReviewsPositive, false, true, StatisticLogger::STATUS_OK);
+                                } catch (\Throwable $ex) {
+                                    Debugger::log($ex);
+                                    $interaction->updateOriginalResponse(MessageErrorFactory::create('Statistics logger raised exception!'));
+                                    return;
+                                }
                             }, $discord);
 
                             $gamesActionRow->addComponent($button);
@@ -82,12 +116,21 @@ class GameSearchBotCommand
                 else
                 {
                     $interaction->updateOriginalResponse(MessageErrorFactory::create('Search input data is not found!'));
+                    $responseStatusCodeForStatistics = StatisticLogger::STATUS_BAD_INPUT;
+                }
+
+                try {
+                    StatisticLogger::logInteraction($interaction, GameSearchBotCommandRegister::COMMAND_NAME, $foundGameName, $foundGamePlayerCount, $foundGameReviewsPositive, $foundTooManyGames, false, $responseStatusCodeForStatistics);
+                } catch (\Throwable $ex) {
+                    Debugger::log($ex);
+                    $interaction->updateOriginalResponse(MessageErrorFactory::create('Statistics logger raised exception!'));
+                    return;
                 }
             });
         });
     }
 
-    private static function createPlayerCountMessage(GameSearchDto $gameSearchDto): MessageBuilder
+    private static function createPlayerCountMessage(GameSearchDto $gameSearchDto): PlayerCountMessage
     {
         $messageBuilder = MessageBuilder::new();
 
@@ -110,6 +153,6 @@ class GameSearchBotCommand
             $messageBuilder = MessageErrorFactory::create('Wild error has appeared!');
         }
 
-        return $messageBuilder;
+        return new PlayerCountMessage($messageBuilder, $playerCountDto ?? null, $gameDetailDto ?? null, $gameReviewsDto ?? null);
     }
 }
