@@ -44,10 +44,16 @@ abstract class BaseUnitCalculator implements IUnitCalculator
     public function createCalculationMessage(UnitCalculatorValue $unitCalculatorValue): string
     {
         $conversionUnits = $this->getConversionUnits();
+
+        if (empty($conversionUnits))
+        {
+            return 'Any conversion units not found';
+        }
+
         $conversionUnitKey = array_rand($conversionUnits, 1);
 
         /** @var ConversionUnit $conversionUnit */
-        $conversionUnit = empty($conversionUnitKey) ? null : $conversionUnits[$conversionUnitKey];
+        $conversionUnit = $conversionUnits[$conversionUnitKey];
 
         if ($conversionUnit !== null)
         {
