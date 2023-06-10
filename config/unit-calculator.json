@@ -104,7 +104,7 @@
         "new-unit-name": "Trilogií Pána prstenů"
       },
       {
-        "conversion-rate": 0.0000925,
+        "conversion-rate": 0.0008333,
         "message": "Za <origin-value> mrkneš <calculated-value>",
         "new-unit-name": "x"
       }
