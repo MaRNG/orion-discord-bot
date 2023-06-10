@@ -90,13 +90,13 @@
     "units": [
       {
         "conversion-rate": 0.0002778,
-        "message": "Za <origin-value> ti <calculated-value>x",
-        "new-unit-name": "uděří srdce"
+        "message": "Za <origin-value> ti <calculated-value>",
+        "new-unit-name": "x uděří srdce"
       },
       {
         "conversion-rate": 0.021,
-        "message": "Za <origin-value> zahraje <calculated-value>x",
-        "new-unit-name": "česká hymna"
+        "message": "Za <origin-value> zahraje <calculated-value>",
+        "new-unit-name": "x česká hymna"
       },
       {
         "conversion-rate": 11.367,
