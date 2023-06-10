@@ -1,14 +1,60 @@
 {
   "length-unit-calculator": {
-    "conversion-rate": 0.6,
-    "message": "<origin-value> to je asi <calculated-value>",
-    "message-not-enough": "<origin-value> není ani jedna pračka :(",
-    "new-unit-name": "praček"
+    "units": [
+      {
+        "message": "<origin-value> to je asi <calculated-value>",
+        "new-unit-name": "praček",
+        "conversion-rate": 0.6
+      },
+      {
+        "message": "<origin-value> to je asi <calculated-value>",
+        "new-unit-name": "jedničkových Fabií",
+        "conversion-rate": 3.96
+      },
+      {
+        "message": "<origin-value> to je asi <calculated-value>",
+        "new-unit-name": "fotbalových hřišť",
+        "conversion-rate": 120
+      },
+      {
+        "message": "<origin-value> to je asi <calculated-value>",
+        "new-unit-name": "pokladen",
+        "conversion-rate": 0.4
+      },
+      {
+        "message": "<origin-value> to je asi <calculated-value>",
+        "new-unit-name": "postelí",
+        "conversion-rate": 2
+      }
+    ]
   },
   "price-unit-calculator": {
-    "conversion-rate": 30000,
-    "message": "<origin-value> ti vystačí asi na <calculated-value>",
-    "message-not-enough": "Za <origin-value> to není ani jedna jedničková ovečka v 1.9tdi 66kw",
-    "new-unit-name": "jedničkových oveček v 1.9tdi 66kw"
+    "units": [
+      {
+        "conversion-rate": 30000,
+        "message": "<origin-value> ti vystačí asi na <calculated-value>",
+        "new-unit-name": "jedničkových oveček v 1.9tdi 66kw"
+      },
+      {
+        "conversion-rate": 105,
+        "message": "Za <origin-value> budeš moct sníst <calculated-value>",
+        "new-unit-name": "Big Maců"
+      },
+      {
+        "conversion-rate": 6.86,
+        "message": "Za <origin-value> budeš moct vystřílet <calculated-value>",
+        "new-unit-name": "9mm nábojů"
+      },
+      {
+        "conversion-rate": 37,
+        "message": "Za <origin-value> můžeš natankovat <calculated-value>",
+        "new-unit-name": "litrů beznínu 95"
+      },
+      {
+        "conversion-rate": 0.24,
+        "message": "Za <origin-value> si můžeš koupit <calculated-value>",
+        "new-unit-name": "RPček do LoLka"
+      }
+    ]
   }
 }
