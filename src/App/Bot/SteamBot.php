@@ -12,6 +12,7 @@ use App\Bot\Command\SteamCurrentTopPlayerCount\SteamCurrentTopPlayerCountCommand
 use App\Bot\Command\SteamCurrentTopPlayerCount\SteamCurrentTopPlayerCountCommandRegister;
 use App\Bot\Command\SteamPlayerCount\SteamPlayerCountBotCommand;
 use App\Bot\Command\SteamPlayerCount\SteamPlayerCountBotCommandRegister;
+use App\Bot\Listener\UnitMessageListenerRegister;
 use App\Config\CredentialsLoader;
 use Discord\Discord;
 use Discord\Parts\User\Activity;
@@ -52,6 +53,8 @@ class SteamBot
 
             SteamCurrentTopPlayerCountCommandRegister::register($discord);
             SteamCurrentTopPlayerCountCommand::attachCommandListener($discord);
+
+            UnitMessageListenerRegister::register($discord);
 
             echo 'Bot is ready!' . PHP_EOL;
         });
