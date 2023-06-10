@@ -47,7 +47,7 @@ abstract class BaseUnitCalculator implements IUnitCalculator
         $conversionUnitKey = array_rand($conversionUnits, 1);
 
         /** @var ConversionUnit $conversionUnit */
-        $conversionUnit = $conversionUnitKey ? $conversionUnits[$conversionUnitKey] : null;
+        $conversionUnit = empty($conversionUnitKey) ? null : $conversionUnits[$conversionUnitKey];
 
         if ($conversionUnit !== null)
         {
