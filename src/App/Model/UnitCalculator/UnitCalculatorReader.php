@@ -2,8 +2,10 @@
 
 namespace App\Model\UnitCalculator;
 
+use App\Config\ConfigLoader;
 use App\Model\UnitCalculator\Calculator\IUnitCalculator;
 use App\Model\UnitCalculator\Calculator\LengthUnitCalculator;
+use App\Model\UnitCalculator\Calculator\PriceUnitCalculator;
 use App\Model\UnitCalculator\Storage\UnitCalculatorReaderItemResult;
 use App\Model\UnitCalculator\Storage\UnitCalculatorReaderResult;
 
@@ -37,6 +39,9 @@ class UnitCalculatorReader
 
     private function registerUnitCalculators(): void
     {
-        $this->unitCalculators[] = new LengthUnitCalculator();
+        $unitConfig = ConfigLoader::load(__DIR__ . '/../../../../config/unit-calculator.json');
+
+        $this->unitCalculators[] = new LengthUnitCalculator($unitConfig['length-unit-calculator']);
+        $this->unitCalculators[] = new PriceUnitCalculator($unitConfig['price-unit-calculator']);
     }
 }

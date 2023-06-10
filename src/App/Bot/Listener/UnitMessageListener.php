@@ -24,7 +24,7 @@ class UnitMessageListener
 
             if (empty($messages) === false)
             {
-                $message->reply(implode('\n', $messages));
+                $message->reply(implode(PHP_EOL, $messages));
             }
         }
     }

@@ -2,13 +2,13 @@
   "length-unit-calculator": {
     "conversion-rate": 0.6,
     "message": "<origin-value> to je asi <calculated-value>",
-    "message-not-enough": "<origin-value> to není ani jedna pračka :(",
+    "message-not-enough": "<origin-value> není ani jedna pračka :(",
     "new-unit-name": "praček"
   },
   "price-unit-calculator": {
     "conversion-rate": 30000,
-    "message": "<origin-value> to ti asi vystačí na <calculated-value>",
-    "message-not-enough": "<origin-value> to není ani jedna jedničková ovečka v 1.9tdi 66kw",
+    "message": "<origin-value> ti vystačí asi na <calculated-value>",
+    "message-not-enough": "Za <origin-value> to není ani jedna jedničková ovečka v 1.9tdi 66kw",
     "new-unit-name": "jedničkových oveček v 1.9tdi 66kw"
   }
 }
