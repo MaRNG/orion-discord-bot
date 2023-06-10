@@ -60,8 +60,8 @@ abstract class BaseUnitCalculator implements IUnitCalculator
             $calculatedNewUnit = self::calculateNewUnit($unitCalculatorValue, $conversionUnit->conversionRate);
 
             return strtr($conversionUnit->message, [
-                '<origin-value>' => sprintf('%s %s', $unitCalculatorValue->value, $unitCalculatorValue->unit),
-                '<calculated-value>' => sprintf('%s %s', $calculatedNewUnit, $conversionUnit->newUnitName)
+                '<origin-value>' => sprintf('%s %s', strtr(number_format($unitCalculatorValue->value, 6, ',', ' '), [ ',000000' => '' ]), $unitCalculatorValue->unit),
+                '<calculated-value>' => sprintf('%s %s', strtr(number_format($calculatedNewUnit, 6, ',', ' '), [ ',000000' => '' ]), $conversionUnit->newUnitName)
             ]);
         }
         else
