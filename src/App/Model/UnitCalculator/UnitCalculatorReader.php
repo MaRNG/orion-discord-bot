@@ -6,6 +6,8 @@ use App\Config\ConfigLoader;
 use App\Model\UnitCalculator\Calculator\IUnitCalculator;
 use App\Model\UnitCalculator\Calculator\LengthUnitCalculator;
 use App\Model\UnitCalculator\Calculator\PriceUnitCalculator;
+use App\Model\UnitCalculator\Calculator\TimeUnitCalculator;
+use App\Model\UnitCalculator\Calculator\WeightUnitCalculator;
 use App\Model\UnitCalculator\Storage\UnitCalculatorReaderItemResult;
 use App\Model\UnitCalculator\Storage\UnitCalculatorReaderResult;
 
@@ -43,5 +45,7 @@ class UnitCalculatorReader
 
         $this->unitCalculators[] = new LengthUnitCalculator($unitConfig['length-unit-calculator']);
         $this->unitCalculators[] = new PriceUnitCalculator($unitConfig['price-unit-calculator']);
+        $this->unitCalculators[] = new WeightUnitCalculator($unitConfig['weight-unit-calculator']);
+        $this->unitCalculators[] = new TimeUnitCalculator($unitConfig['time-unit-calculator']);
     }
 }

@@ -56,5 +56,58 @@
         "new-unit-name": "RPček do LoLka"
       }
     ]
+  },
+  "weight-unit-calculator": {
+    "units": [
+      {
+        "conversion-rate": 0.21,
+        "message": "<origin-value> je <calculated-value>",
+        "new-unit-name": "Cheesburgerů"
+      },
+      {
+        "conversion-rate": 10000000,
+        "message": "<origin-value> je <calculated-value>",
+        "new-unit-name": "Eiffelovek"
+      },
+      {
+        "conversion-rate": 0.00011,
+        "message": "<origin-value> je <calculated-value>",
+        "new-unit-name": "včel"
+      },
+      {
+        "conversion-rate": 52310000,
+        "message": "<origin-value> je <calculated-value>",
+        "new-unit-name": "Titaniků"
+      },
+      {
+        "conversion-rate": 396893,
+        "message": "<origin-value> je <calculated-value>",
+        "new-unit-name": "Jumbo Jet letadel"
+      }
+    ]
+  },
+  "time-unit-calculator": {
+    "units": [
+      {
+        "conversion-rate": 0.0002778,
+        "message": "Za <origin-value> ti <calculated-value>x",
+        "new-unit-name": "uděří srdce"
+      },
+      {
+        "conversion-rate": 0.021,
+        "message": "Za <origin-value> zahraje <calculated-value>x",
+        "new-unit-name": "česká hymna"
+      },
+      {
+        "conversion-rate": 11.367,
+        "message": "Za <origin-value> se podíváš na <calculated-value>",
+        "new-unit-name": "Trilogí Pána prstenů"
+      },
+      {
+        "conversion-rate": 0.0000925,
+        "message": "Za <origin-value> mrkneš <calculated-value>",
+        "new-unit-name": "x"
+      }
+    ]
   }
 }

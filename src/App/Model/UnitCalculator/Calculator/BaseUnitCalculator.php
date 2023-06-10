@@ -80,7 +80,7 @@ abstract class BaseUnitCalculator implements IUnitCalculator
         $internalConversionRate = static::INTERNAL_CONVERSION_MAP[$unitCalculatorValue->unit] ?? 1;
         $baseValue = $unitCalculatorValue->value * $internalConversionRate;
 
-        return round($baseValue / $newUnitConversionRate, 3);
+        return round($baseValue / $newUnitConversionRate, 6);
     }
 
     protected function getConversionUnits(): array
