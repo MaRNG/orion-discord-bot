@@ -2,12 +2,14 @@
 
 namespace App\Model\Statistic;
 
+use App\Bot\Listener\UnitMessageListener;
 use App\Model\Database\Entity\LogStatistic;
 use App\Model\Database\Handler\EntityHandler;
 use App\Model\Statistic\Storage\StatisticChannel;
 use App\Model\Statistic\Storage\StatisticGame;
 use App\Model\Statistic\Storage\StatisticOption;
 use App\Model\Statistic\Storage\StatisticUser;
+use Discord\Parts\Channel\Message;
 use Discord\Parts\Interactions\Interaction;
 use Discord\Parts\Interactions\Request\Option;
 
@@ -106,5 +108,44 @@ class StatisticLogger
         }
 
         return self::log($statisticUser, $statisticChannel, $statisticOption, $statisticGame, $message, $action, $foundTooManyGames, $selectedGame, $responseStatusCode);
+    }
+
+    public static function logUnitCalculatorMessage(Message $message): LogStatistic
+    {
+        printf('Start logging unit calculator message...' . PHP_EOL);
+
+        $statisticUser = null;
+        $statisticChannel = null;
+        $messageContent = null;
+
+        if ($message->author !== null)
+        {
+            printf('Fetching user data...' . PHP_EOL);
+            $statisticUser = new StatisticUser($message->author->id, $message->author->username);
+        }
+
+        if ($message->channel !== null)
+        {
+            printf('Fetching channel data...' . PHP_EOL);
+            $statisticChannel = new StatisticChannel($message->channel->id, $message->channel->name);
+        }
+
+        if ($message->content !== null)
+        {
+            printf('Fetching request message...' . PHP_EOL);
+            $messageContent = $message->content;
+        }
+
+        return self::log(
+            $statisticUser,
+            $statisticChannel,
+            null,
+            null,
+            $messageContent,
+            UnitMessageListener::ACTION_NAME,
+            false,
+            false,
+            StatisticLogger::STATUS_OK
+        );
     }
 }
