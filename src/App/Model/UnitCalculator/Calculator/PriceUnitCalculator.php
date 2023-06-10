@@ -8,7 +8,10 @@ class PriceUnitCalculator extends BaseUnitCalculator
         'kč' => 1,
         'k' => 1000,
         'táců' => 1000,
-        'm' => 1000000,
+        'tisíc' => 1000,
         'míčů' => 1000000,
+        'milion' => 1000000,
+        'milions' => 1000000,
+        'milionů' => 1000000,
     ];
 }

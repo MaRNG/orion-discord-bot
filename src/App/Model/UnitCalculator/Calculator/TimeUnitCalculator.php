@@ -12,7 +12,7 @@ class TimeUnitCalculator extends BaseUnitCalculator
         'hodiny' => 1,
         'hour' => 1,
         'hours' => 1,
-        'm' => 1/60,
+        'min' => 1/60,
         'minuta' => 1/60,
         'minut' => 1/60,
         'minuty' => 1/60,
