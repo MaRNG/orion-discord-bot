@@ -23,7 +23,7 @@ abstract class BaseUnitCalculator implements IUnitCalculator
 
         $unitsToFind = array_keys(static::INTERNAL_CONVERSION_MAP);
 
-        preg_match_all(sprintf('/([0-9.,]+)\s?(%s)\b/iu', implode('|', $unitsToFind)), $message, $matches);
+        preg_match_all(sprintf('/([0-9.,]+)\s?(%s)\z/iu', implode('|', $unitsToFind)), $message, $matches);
 
         $values = array_values($matches[1]);
         $units = array_values($matches[2]);
