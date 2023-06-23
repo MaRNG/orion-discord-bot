@@ -9,7 +9,7 @@ use App\Util\StringFormatter;
 class EntityMapper
 {
     public const PROPERTY_TYPE_MAP = [
-        'string' => 'VARCHAR',
+        'string' => 'STRING',
         'int' => 'INTEGER',
         'float' => 'FLOAT',
         'datetime' => 'DATETIME',
